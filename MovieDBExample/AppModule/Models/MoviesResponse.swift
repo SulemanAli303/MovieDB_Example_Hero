@@ -28,10 +28,10 @@ struct MoviesResponse: Codable {
     }
         //this can be optimise from configuration api
     var backdropURL:URL {
-        return URL(string: "https://image.tmdb.org/t/p/original\(self.backdropPath ?? "")")!
+        return URL(string: "https://image.tmdb.org/t/p/original\(self.backdropPath ?? self.posterPath ?? "")")!
     }
         //this can be optimise from configuration api
     var posterURL:URL {
-        return URL(string: "https://image.tmdb.org/t/p/original\(self.posterPath ?? "")")!
+        return URL(string: "https://image.tmdb.org/t/p/original\(self.posterPath ?? self.backdropPath ?? "")")!
     }
 }

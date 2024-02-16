@@ -17,6 +17,15 @@ class VideoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.movieCollectionView!.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
+        if let layout = movieCollectionView.collectionViewLayout as? PinterestLayout {
+            layout.columnsCount = 2
+            layout.delegate = self
+            layout.contentPadding = PinterestLayout.Padding(horizontal: 5, vertical: 5)
+            layout.cellsPadding = PinterestLayout.Padding(horizontal: 10, vertical: 10)
+        }
+
+        movieCollectionView.setContentOffset(CGPoint.zero, animated: false)
+
         self.movieCollectionView.reloadData()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -99,10 +108,13 @@ extension VideoViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension VideoViewController:PinterestLayoutDelegate {
-    func collectionView(collectionView: UICollectionView, heightForPhotoAt indexPath: IndexPath, with width: CGFloat) -> CGFloat {
-        let widthOfCollectionView = collectionView.bounds.width
-        let widthOfItem = (widthOfCollectionView - 40)/2 // 10| item | 20 | item |10
-        return widthOfItem
+    func cellSize(indexPath: IndexPath) -> CGSize {
+        let widthOfCollectionView = movieCollectionView.bounds.width
+        let widthOfItem = Int((widthOfCollectionView - 40)/2)
+
+        let randomImageH = Int.random(in: (widthOfItem-80)...widthOfItem)
+        let randomImageW = Int.random(in: (widthOfItem-80)...widthOfItem)
+        return CGSize(width: randomImageW, height: randomImageH)
     }
 }
 
